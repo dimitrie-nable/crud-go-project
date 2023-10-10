@@ -26,7 +26,7 @@ func TryPassword(user model.User, resultChannel chan model.User, wg *sync.WaitGr
 
 }
 
-func GetAllPasswords(users []model.User) {
+func GetAllPasswords(users []model.User) []string {
 	start := time.Now()
 	resultChannel := make(chan model.User)
 	wg := sync.WaitGroup{}
@@ -38,11 +38,13 @@ func GetAllPasswords(users []model.User) {
 		wg.Wait()
 		close(resultChannel)
 	}()
-
+	passwordsOfUsers := make([]string, 0)
 	for guessed := range resultChannel {
-		fmt.Printf("The password of user %v is %v\n", guessed.UserName, guessed.Password)
+		passwordsOfUsers = append(passwordsOfUsers, fmt.Sprintf("The password of user %v is %v", guessed.UserName, guessed.Password))
 	}
 	elapsed := time.Since(start)
 	fmt.Printf("All passwords have been guessed in %s\n", elapsed)
+
+	return passwordsOfUsers
 
 }
