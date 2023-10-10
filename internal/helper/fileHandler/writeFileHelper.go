@@ -9,8 +9,6 @@ import (
 )
 
 func WriteFileByLines(fileName string, lines []string) {
-
-	//lines := passwordHandler.FileStructureGenerator(constant.MIN_PASSWORD_VALUE, constant.MAX_PASSWORD_VALUE, userNames)
 	file, err := os.Create(fileName)
 	if err != nil {
 		fmt.Println(err.Error())
