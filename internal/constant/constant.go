@@ -1,6 +1,10 @@
 package constant
 
 const (
+	DB_ADDR      = "127.0.0.1:3306"
+	DB_NAME      = "crud_database"
+	NET_PROTOCOL = "tcp"
+
 	USERNAMES_PATH           = "./test/users.txt"
 	USERS_AND_PASSWORDS_PATH = "./test/userPassword.txt"
 

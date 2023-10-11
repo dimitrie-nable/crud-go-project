@@ -1,0 +1,11 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: crud_DB
+    environment:
+      MYSQL_ROOT_PASSWORD: 11111111
+      MYSQL_DATABASE: database
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql/init:/docker-entrypoint-initdb.d
