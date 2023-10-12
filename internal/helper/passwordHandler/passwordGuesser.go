@@ -26,7 +26,7 @@ func TryPassword(user model.User, resultChannel chan model.User, wg *sync.WaitGr
 
 }
 
-func GetAllPasswords(users []model.User) []string {
+func (DefaultPasswordHandler) GetAllPasswords(users []model.User) []string {
 	start := time.Now()
 	resultChannel := make(chan model.User)
 	wg := sync.WaitGroup{}

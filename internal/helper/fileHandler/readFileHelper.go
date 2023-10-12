@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-func ReadByLine(filename string) []string {
+func (DefaultFileHandler) ReadByLine(filename string) []string {
 	file, err := os.Open(filename)
 
 	if err != nil {
@@ -26,7 +26,7 @@ func ReadByLine(filename string) []string {
 	return value
 }
 
-func ReadFileToStruct(filename string) []model.User {
+func (DefaultFileHandler) ReadFileToStruct(filename string) []model.User {
 	value := make([]model.User, 0)
 	file, err := os.Open(filename)
 

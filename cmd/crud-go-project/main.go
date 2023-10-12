@@ -11,8 +11,8 @@ var userNames = make([]string, 0)
 var usersAndPasswords = make([]model.User, 0)
 
 func init() {
-	userNames = fileHandler.ReadByLine(constant.USERNAMES_PATH)
-	usersAndPasswords = fileHandler.ReadFileToStruct(constant.USERS_AND_PASSWORDS_PATH)
+	userNames = fileHandler.DefaultFileHandler{}.ReadByLine(constant.USERNAMES_PATH)
+	usersAndPasswords = fileHandler.DefaultFileHandler{}.ReadFileToStruct(constant.USERS_AND_PASSWORDS_PATH)
 }
 
 func main() {

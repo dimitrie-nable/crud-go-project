@@ -11,23 +11,25 @@ import (
 	"strconv"
 )
 
-func GetUsers(usersAndPasswords []model.User) gin.HandlerFunc {
+func (h *FileHandler) GetUsers() gin.HandlerFunc {
 	fn := func(c *gin.Context) {
-		usersAndPasswords = fileHandler.ReadFileToStruct(constant.USERS_AND_PASSWORDS_PATH)
+		usersAndPasswords := h.fileHandler.ReadFileToStruct(constant.USERS_AND_PASSWORDS_PATH)
+		fmt.Println(usersAndPasswords)
 		c.IndentedJSON(http.StatusOK, usersAndPasswords)
 	}
 	return gin.HandlerFunc(fn)
 }
 
-func GetPasswords(usersAndPasswords []model.User) gin.HandlerFunc {
+func (h *PasswordHandler) GetPasswords(usersAndPasswords []model.User) gin.HandlerFunc {
 	fn := func(c *gin.Context) {
-		passwords := passwordHandler.GetAllPasswords(usersAndPasswords)
+		passwords := h.passwordHandler.GetAllPasswords(usersAndPasswords)
+		fmt.Println(passwords)
 		c.IndentedJSON(http.StatusOK, passwords)
 	}
 	return gin.HandlerFunc(fn)
 }
 
-func CreateUserFile(usersAndPasswords []model.User) gin.HandlerFunc {
+func (h *FileHandler) CreateUserFile(usersAndPasswords []model.User) gin.HandlerFunc {
 	fn := func(c *gin.Context) {
 		var createUsersAndPasswords []model.User
 
@@ -52,7 +54,7 @@ func CreateUserFile(usersAndPasswords []model.User) gin.HandlerFunc {
 	return gin.HandlerFunc(fn)
 }
 
-func AddUser(users []model.User) gin.HandlerFunc {
+func (h *FileHandler) AddUser(users []model.User) gin.HandlerFunc {
 	fn := func(c *gin.Context) {
 		var newUser model.User
 
@@ -68,17 +70,17 @@ func AddUser(users []model.User) gin.HandlerFunc {
 	return gin.HandlerFunc(fn)
 }
 
-func GenerateUsersAndPasswords(usersAndPasswords []model.User, userNames []string) gin.HandlerFunc {
+func (h *FileHandler) GenerateUsersAndPasswords(usersAndPasswords []model.User, userNames []string) gin.HandlerFunc {
 	fn := func(c *gin.Context) {
 		usersAndPasswordsString := passwordHandler.FileStructureGenerator(constant.MIN_PASSWORD_VALUE, constant.MAX_PASSWORD_VALUE, userNames)
 		fileHandler.WriteFileByLines(constant.USERS_AND_PASSWORDS_PATH, usersAndPasswordsString)
-		usersAndPasswords = fileHandler.ReadFileToStruct(constant.USERS_AND_PASSWORDS_PATH)
+		usersAndPasswords = h.fileHandler.ReadFileToStruct(constant.USERS_AND_PASSWORDS_PATH)
 		c.IndentedJSON(http.StatusOK, usersAndPasswords)
 	}
 	return gin.HandlerFunc(fn)
 }
 
-func DeleteUsersAndPasswordsFile() gin.HandlerFunc {
+func (h *FileHandler) DeleteUsersAndPasswordsFile() gin.HandlerFunc {
 	fn := func(c *gin.Context) {
 		if fileHandler.DeleteFile(constant.USERS_AND_PASSWORDS_PATH) {
 			c.Status(http.StatusOK)
@@ -89,7 +91,7 @@ func DeleteUsersAndPasswordsFile() gin.HandlerFunc {
 	return gin.HandlerFunc(fn)
 }
 
-func DeleteUsersAndPasswordsFromFile(usersAndPasswords []model.User) gin.HandlerFunc {
+func (h *FileHandler) DeleteUsersAndPasswordsFromFile(usersAndPasswords []model.User) gin.HandlerFunc {
 	fn := func(c *gin.Context) {
 		userName := c.Param("userName")
 		if fileHandler.DeleteLineFromFile(constant.USERS_AND_PASSWORDS_PATH, userName) {
